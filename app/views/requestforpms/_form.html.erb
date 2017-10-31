@@ -1,0 +1,91 @@
+<% @range = Requestforpm.where('(passengerride_id = ?) AND (status = ?)', @passengerride.id, 'Accepted').count %>
+
+<% if @range < 1 %>
+
+    <% if @passengerride.user.id == current_user.id %>
+
+        <p>Request:</p> <br>
+
+        <% @y = Requestforpm.where('(passengerride_id = ?) AND (status = ?)', @passengerride.id, 'Request') %>
+
+        <% if @y.present? %>
+            <br>
+            <% @y.each do |display| %>
+
+                <p><b><%= display.customer.username %></b> wants to offer you lift</p><br>
+
+                <% @id = display.id %>
+
+                <%#= link_to 'Accept', {:controller => :requestforpms, :action => :updatestatus}, {:method => :put} %>
+
+                <%= form_for (@requestforpm), url: {controller: :requestforpms, action: :updatestatus, id: @id } do |form| %>
+                    <%= form.hidden_field :status, :value => 'Accepted' %>
+                    <%= form.submit 'Accept', class: 'btn btn-primary' %><br><br>
+                <% end %>
+
+                <%= link_to 'Decline', requestforpm_path(@requestforpm, id: @id), method: :delete,
+                            data: { confirm: "Are you sure you want to delete this ride?"},
+                            class: "btn btn-danger"%>
+            <% end %>
+
+
+        <% else %>
+
+            <br><p>No requests!</p>
+
+        <% end %>
+
+
+    <% else %>
+
+        <% @x = Requestforpm.where('(passengerride_id = ?) AND (customer_id = ?)', @passengerride.id, @current_user.id) %>
+
+        <% if @x.present? %>
+            <% @x.each do |request| %>
+
+                <% if request.customer_id == @current_user.id and request.passengerride_id == @passengerride.id and request.status == 'Request' %>
+
+                    <div class="btn btn-primary">Request sent <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
+
+                <% elsif request.customer_id == @current_user.id and request.passengerride_id == @passengerride.id and request.status == 'Accepted' %>
+
+                    <div class="btn btn-primary">Accepted</div>
+
+                <% else %>
+
+                    <%= form_for (@requestforpm) do |form| %>
+
+                        <%= form.hidden_field :passengerride_id, :value => @passengerride.id %>
+                        <%= form.hidden_field :customer_id, :value => @current_user.id %>
+                        <%= form.hidden_field :status, :value => 'Request' %>
+                        <%= form.submit 'Offer Lift', class: 'btn btn-primary' %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% else %>
+            <%= form_for (@requestforpm) do |form| %>
+                <%= form.hidden_field :passengerride_id, :value => @passengerride.id %>
+                <%= form.hidden_field :customer_id, :value => @current_user.id %>
+                <%= form.hidden_field :status, :value => 'Request' %>
+                <%= form.submit 'Offer Lift', class: 'btn btn-primary' %>
+            <% end %>
+        <% end %>
+
+
+    <% end %>
+
+<% else %>
+
+    <br><br><br>
+    <h4>I found a ride!</h4>
+    <% @xy = Requestforpm.where('(passengerride_id = ?) AND (customer_id = ?)', @passengerride.id, @current_user.id) %>
+    <% @xy.each do |request| %>
+
+
+        <% if request.customer_id == @current_user.id and request.passengerride_id == @passengerride.id and request.status == 'Accepted' %>
+
+            <div class="btn btn-primary">Accepted</div>
+
+        <% end %>
+    <% end %>
+<% end %>

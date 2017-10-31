@@ -1,0 +1,82 @@
+<% @ranged = Requestfordm.where('(driverride_id = ?) AND (status = ?)', @driverride.id, 'Accepted').count %>
+
+<% if @ranged < 5 %>
+
+    <% if @driverride.user.id == current_user.id %>
+
+        <p>Request:</p> <br>
+
+        <% @y = Requestfordm.where('(driverride_id = ?) AND (status = ?)', @driverride.id, 'Request') %>
+
+        <% if @y.present? %>
+            <br>
+            <% @y.each do |display| %>
+
+                <p><b><%= display.customer.username %></b> wants to offer you lift</p><br>
+
+                <% @id = display.id %>
+
+                <%#= link_to 'Accept', {:controller => :requestfordms, :action => :updatestatus}, {:method => :put} %>
+
+                <%= form_for (@requestfordm), url: {controller: :requestfordms, action: :updatestatus, id: @id } do |form| %>
+                    <%= form.hidden_field :status, :value => 'Accepted' %>
+                    <%= form.submit 'Accept', class: 'btn btn-primary' %><br><br>
+                <% end %>
+
+                <%= link_to 'Decline', requestfordm_path(@requestfordm, id: @id), method: :delete,
+                            data: { confirm: "Are you sure you want to delete this ride?"},
+                            class: "btn btn-danger"%>
+            <% end %>
+
+
+        <% else %>
+
+            <br><p>No requests!</p>
+
+        <% end %>
+
+
+    <% else %>
+
+        <% @x = Requestfordm.where('(driverride_id = ?) AND (customer_id = ?)', @driverride.id, @current_user.id) %>
+
+        <% if @x.present? %>
+            <% @x.each do |request| %>
+
+                <% if request.customer_id == @current_user.id and request.driverride_id == @driverride.id and request.status == 'Request' %>
+
+                    <div class="btn btn-primary">Request sent <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
+
+                <% elsif request.customer_id == @current_user.id and request.driverride_id == @driverride.id and request.status == 'Accepted' %>
+
+                    <div class="btn btn-primary">Accepted</div>
+
+                <% else %>
+
+                    <%= form_for (@requestfordm) do |form| %>
+
+                        <%= form.hidden_field :driverride_id, :value => @driverride.id %>
+                        <%= form.hidden_field :customer_id, :value => @current_user.id %>
+                        <%= form.hidden_field :status, :value => 'Request' %>
+                        <%= form.submit 'Offer Lift', class: 'btn btn-primary' %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% else %>
+            <%= form_for (@requestfordm) do |form| %>
+                <%= form.hidden_field :driverride_id, :value => @driverride.id %>
+                <%= form.hidden_field :customer_id, :value => @current_user.id %>
+                <%= form.hidden_field :status, :value => 'Request' %>
+                <%= form.submit 'Offer Lift', class: 'btn btn-primary' %>
+            <% end %>
+        <% end %>
+
+
+    <% end %>
+
+<% else %>
+
+    <br><br><br>
+    <h4>I found a ride!</h4>
+
+<% end %>

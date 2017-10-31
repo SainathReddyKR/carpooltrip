@@ -1,0 +1,269 @@
+<%= render 'shared/error', obj: @driverride %>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtRcoyzyX2Lv4rspUxVChuqFp7SS5QHxc&libraries=places"></script>
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script type="text/javascript">
+  google.maps.event.addDomListener(window, 'load', intilize);
+  function intilize() {
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById("txtautocomplete"));
+    var aautocomplete = new google.maps.places.Autocomplete(document.getElementById("autocomplete"));
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+
+      var place = autocomplete.getPlace();
+    });
+
+  };
+
+</script>
+
+
+
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>
+
+<div class="bootstrap-iso">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-horizontal">
+          <%= form_for @driverride do |f| %>
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :origin, 'Origin' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_field :origin, class: "select form-control", placeholder: "Please enter Origin", id:"txtautocomplete" %>
+                </div>
+              </div>
+
+              <br>
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :destination, 'Destination' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_field :destination, class: "select form-control", placeholder: "Please enter Destination", id:"autocomplete" %>
+                </div>
+              </div>
+
+              <br><br>
+
+              <!--                                    Date                                                                 -->
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :departuredate, 'Departure Date' %>
+                  <span class="asteriskField">*</span>
+                </div>
+
+
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar">
+                      </i>
+                    </div>
+                    <div class="datepickerrrr">
+                      <%= f.text_field :departuredate, class: "form-control", placeholder: "MM/DD/YYYY" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--                                    TIME                                                                 -->
+
+              <br>
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :departuretime, 'Departure Time' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.time_select :departuretime %>
+                </div>
+              </div>
+
+
+              <br><br>
+
+              <!--                                    NUMBER seats                                                                 -->
+
+
+              <div class="form-group ">
+
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :seatsavailable, 'Number of seats available' %><span class="asteriskField">*</span>
+                </div>
+
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-users">
+                      </i>
+                    </div>
+                    <%= f.number_field :seatsavailable, class: "form-control", min: 1%>
+                  </div>
+                </div>
+              </div>
+
+              <!--                                     checkbox ok with gender                                                                -->
+
+
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :okwithgender, 'Passenger should be:' %>
+                  <span class="asteriskField">*</span>
+                </div>
+
+                <div class="col-sm-8">
+                  <div class=" ">
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwithgender"  type="checkbox" value="Male" name="driverride[okwithgender][]">Male</label>
+
+                    </div>
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwithgender"  type="checkbox" value="Female" name="driverride[okwithgender][]">Female</label>
+
+                    </div>
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwithgender"  type="checkbox" value="Other" name="driverride[okwithgender][]">Other</label>
+
+                    </div>
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwithgender"  type="checkbox" value="Any Gender" name="driverride[okwithgender][]">Any Gender</label>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!--                                     checkbox ok with                                                                 -->
+
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :okwith, 'Passenger should be ok with:' %> <span class="asteriskField">*</span>
+                </div>
+
+                <div class="col-sm-8">
+                  <div class=" ">
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwith"  type="checkbox" value="Music" name="driverride[okwith][]">Music</label>
+
+                    </div>
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwith"  type="checkbox" value="Pets" name="driverride[okwith][]">Pets</label>
+
+                    </div>
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwith"  type="checkbox" value="Food" name="driverride[okwith][]">Food</label>
+
+                    </div>
+                    <div class="checkbox">
+
+                      <label class="checkbox"><input id="okwith"  type="checkbox" value="Smoking" name="driverride[okwith][]">Smoking</label>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!--<div class="form-group ">-->
+
+                <!--<div class="control-label col-sm-2 requiredField">-->
+                  <%#= f.label :okwith, 'Passenger should be ok with:' %> <span class="asteriskField">*</span>
+                <!--</div>-->
+
+                <!--<%#= f.fields_for 'driverride[okwith][]', okwith do |okwith| %>-->
+                    <!--<%#= okwith.check_box :okwith, 'Music' %>-->
+                <!--<%# end %>-->
+
+              <!--</div>-->
+
+
+              <!--                                     button gas money                                                                 -->
+
+
+              <br>
+              <div class="form-group ">
+                <div class="control-label">
+                </div>
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :sharegasmoney, 'Passenger should share gas money:' %>
+                  <span class="asteriskField">*</span>
+                </div>
+
+                <div class="col-sm-8">
+                  <div class=" ">
+                    <div class="radio">
+
+                      <label class="radio"><input id="sharegasmoney"  type="radio" value="Yes" name="driverride[sharegasmoney][]">Yes</label>
+
+                    </div>
+                    <div class="radio">
+
+                      <label class="radio"><input id="sharegasmoney"  type="radio" value="Not Required" name="driverride[sharegasmoney][]">Not Required</label>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!--                                     DESCRIPTION                                                                 -->
+
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 ">
+                  <%= f.label :description, 'Additional Info:' %>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_area :description, class: "form-control"%>
+                </div>
+              </div>
+
+
+              <!--                                     Submit                                                                 -->
+              <br>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                  <div>
+                    <%= f.submit class: 'btn btn-primary' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                  <%= link_to 'Cancel', driverrides_path, class: 'btn btn-danger' %>
+                </div></div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>

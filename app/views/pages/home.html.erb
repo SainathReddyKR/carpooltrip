@@ -1,0 +1,30 @@
+<div class="center jumbotron">
+  <h1>Welcome to Carpool Trip!</h1>
+  <br>
+  <p>Share ride with strangers, make friends, save money! </p>
+
+  <% if user_signed_in? %>
+
+  <% else %>
+      <p>Didn't sign up yet?</p>
+      <%= link_to "Sign up", new_user_registration_path , class: "btn btn-primary btn-s" %> | <%= link_to "Login", new_user_session_path, class: "btn btn-primary btn-s" %>
+  <% end %>
+</div>
+
+<% if user_signed_in? %>
+<div class="center jumbotron">
+    <p>Don't have a car? Is taxi too expensive? Need lift?</p>
+  <%= link_to "Search for lift", driverrides_path, class: "btn btn-primary btn" %>
+  <br><br>
+  <p>Didn't find a ride for your requirements? Add your ride here:</p><%= link_to "Add Ride", new_passengerride_path, class: "btn btn-primary btn" %>
+
+</div>
+
+    <div class="center jumbotron">
+      <p>Have a car? Would you like to offer lift?</p>
+      <%= link_to "Search for passengers", passengerrides_path, class: "btn btn-primary btn" %>
+      <br><br>
+      <p>Didn't find a passenger for your requirements? Add your ride here:</p><%= link_to "Add Ride", new_driverride_path, class: "btn btn-primary btn" %>
+
+    </div>
+<% end %>

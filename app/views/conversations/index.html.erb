@@ -1,0 +1,12 @@
+<h2>Inbox</h2>
+
+<% @conversations.each do |conversation| %>
+
+    <div class="">
+
+      <%= link_to conversation.subject, conversation_path(conversation) %>
+
+
+    </div>
+
+<% end %>

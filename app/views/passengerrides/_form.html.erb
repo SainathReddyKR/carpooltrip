@@ -1,0 +1,440 @@
+<%= render 'shared/error', obj: @passengerride %>
+
+
+
+<script src="https://maps.googleapis.com/maps/api/place/autocomplete/json?&types=address&country=fr&key==AIzaSyCtRcoyzyX2Lv4rspUxVChuqFp7SS5QHxc&libraries=places"></script>
+
+<script type="text/javascript">
+  google.maps.event.addDomListener(window, 'load', intilize);
+  function intilize() {
+
+    var options = {
+      componentRestrictions: {country: "us"}
+    };
+
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById("txtautocomplete"));
+
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+
+      var place = autocomplete.getPlace();
+    });
+
+  };
+
+</script>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $('#vehicle').on('change', function() {
+      if ( this.value == 'Bike')
+      {
+        $("#appear_not_bike").hide();
+      }
+      else
+      {
+        $("#appear_not_bike").show();
+      }
+    });
+  });
+
+  $(document).ready(function(){
+    $('#music').on('change', function() {
+      if ( this.value == 'No')
+      {
+        $("#appear_music").hide();
+      }
+      else
+      {
+        $("#appear_music").show();
+      }
+    });
+  });
+
+</script>
+
+
+
+
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>
+
+<div class="bootstrap-iso">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-horizontal">
+          <%= form_for @passengerride do |f| %>
+
+              <!--                                    VEHICLE                                           -->
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :vehicle, 'Select type of Vehicle' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <select class="select form-control" id="vehicle" name="vehicle">
+                    <option value="Bike">
+                      Bike
+                    </option>
+                    <option value="Car">
+                      Car
+                    </option>
+                    <option value="Van">
+                      Van
+                    </option>
+                    <option value="Bus">
+                      Bus
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!--                                     MODEL                                               -->
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :model, 'Car Model' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_field :model, class: "select form-control", placeholder: "Please enter Model" %>
+                </div>
+              </div>
+
+              <!--                                     RENT                                                 -->
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :rent, 'Please enter the rent:' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_field :rent, class: "select form-control", placeholder: "Please enter Rent" %>
+                </div>
+              </div>
+
+              <!--                                     PICKUP                                   -->
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :pickup, 'Enter pickup location:' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_field :pickup, class: "select form-control", placeholder: "Enter the Pickup Address here.", id: 'txtautocomplete' %>
+                </div>
+              </div>
+
+              <!--                                     MILEAGE                                             -->
+              <div class="form-group ">
+                <div class="control-label col-sm-2 requiredField">
+                  <%= f.label :mileage, 'Mileage' %>
+                  <span class="asteriskField">*</span>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_field :mileage, class: "select form-control", placeholder: "Kilometre per 1 litre" %>
+                </div>
+              </div>
+
+
+              <!--                                       APPEAR                                              -->
+
+              <div id="appear_not_bike" style="display: none">
+
+                <!--                                       AC                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :ac, 'Does your vehicle have Air Conditioner?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="ac"  type="radio" value="true" name="passengerride[ac][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="ac"  type="radio" value="false" name="passengerride[ac][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       TV                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :tv, 'Does your vehicle have Television?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="tv"  type="radio" value="true" name="passengerride[tv][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="tv"  type="radio" value="false" name="passengerride[tv][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       MUSIC                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :music, 'Does your vehicle have Music System?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="music"  type="radio" value="true" name="passengerride[music][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="music"  type="radio" value="false" name="passengerride[music][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="appear_music" style="display: none">
+                <!--                                       AUXCABLE                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :auxcable, 'Does it support Aux Cable?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="auxcable"  type="radio" value="true" name="passengerride[auxcable][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="auxcable"  type="radio" value="false" name="passengerride[auxcable][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       BLUETOOTH                                     -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :bluetooth, 'Does it support Bluetooth?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="bluetooth"  type="radio" value="true" name="passengerride[bluetooth][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="bluetooth"  type="radio" value="false" name="passengerride[bluetooth][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                <!--                                       NAVIGATION                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :navigation, 'Does your vehicle have Navigation System?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="navigation"  type="radio" value="true" name="passengerride[navigation][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="navigation"  type="radio" value="false" name="passengerride[navigation][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       CAMERA                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :rearbackupcamera, 'Does your vehicle have Rear Backup Camera?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="rearbackupcamera"  type="radio" value="true" name="passengerride[rearbackupcamera][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="rearbackupcamera"  type="radio" value="false" name="passengerride[rearbackupcamera][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       PETS                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :pets, 'Are pets permitted in your vehicle?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="pets"  type="radio" value="true" name="passengerride[pets][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="pets"  type="radio" value="false" name="passengerride[pets][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       DRINKING                                             -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :drinking, 'Is the passenger allowed to consume alcoholic beverages in your vehicle?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="drinking"  type="radio" value="true" name="passengerride[drinking][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="drinking"  type="radio" value="false" name="passengerride[drinking][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       EATING                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :eating, 'Is the passenger allowed to eat inside your vehicle?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="eating"  type="radio" value="true" name="passengerride[eating][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="eating"  type="radio" value="false" name="passengerride[eating][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--                                       SMOKING                                              -->
+
+                <div class="form-group ">
+                  <div class="control-label">
+                  </div>
+                  <div class="control-label col-sm-2 requiredField">
+                    <%= f.label :smoking, 'Are people allowed to smoke in your vehicle?' %>
+                    <span class="asteriskField">*</span>
+                  </div>
+
+                  <div class="col-sm-8">
+                    <div class=" ">
+                      <div class="radio">
+                        <label class="radio"><input id="smoking"  type="radio" value="true" name="passengerride[smoking][]">Yes</label>
+                      </div>
+                      <div class="radio">
+                        <label class="radio"><input id="smoking"  type="radio" value="false" name="passengerride[smoking][]">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <!--                                     DESCRIPTION                                                                 -->
+
+
+              <div class="form-group ">
+                <div class="control-label col-sm-2 ">
+                  <%= f.label :additionalinfo, 'Additional Info:' %>
+                </div>
+                <div class="col-sm-8">
+                  <%= f.text_area :additionalinfo, class: "form-control"%>
+                </div>
+              </div>
+
+
+              <!--                                     Submit                                                                 -->
+              <br>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                  <div>
+                    <%= f.submit 'Post AD', class: 'btn btn-primary' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                  <%= link_to 'Cancel', passengerrides_path, class: 'btn btn-danger' %>
+                </div></div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.datepicker').datepicker();
+  });
+</script>
